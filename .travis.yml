@@ -1,0 +1,16 @@
+language: java
+jdk:
+  - oraclejdk8
+install:
+  - mvn clean test verify -Ptravis-ci
+
+after_success:
+  - mvn cobertura:cobertura coveralls:report -Ptravis-ci
+
+
+notifications:
+  email:
+     - sah4ez32@gmail.com
+
+services:
+  - exdb
