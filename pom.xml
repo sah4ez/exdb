@@ -8,6 +8,7 @@
     <packaging>jar</packaging>
 
     <name>exdb</name>
+    <description>Safe extraction data through the ResultSet</description>
     <url>https://github.com/sah4ez/exdb</url>
 
     <licenses>
@@ -18,7 +19,7 @@
     </licenses>
 
     <scm>
-        <url>scm:git://github.com/sah4ez/erp_vaadin_framework.git</url>
+        <url>scm:git://github.com/sah4ez/exdb.git</url>
     </scm>
 
     <properties>

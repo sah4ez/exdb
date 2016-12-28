@@ -6,6 +6,16 @@ exdb
 
 ### ABOUT ###
 
+Maven dependency
+
+```xml
+        <dependency>
+            <groupId>com.github.sah4ez</groupId>
+            <artifactId>exdb</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+```
+
 This is a library for safe extraction from database through the ResultSet.
 
 ##### Why user Extractor? #####
