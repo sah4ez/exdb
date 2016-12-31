@@ -6,12 +6,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
- * Class for extract data safety from ResultSet
+ * Class for safe extraction data through ResultSet
  *
  * @author sah4ez
  */
 public class Extractor {
     private ResultSet rs = null;
+
+    //TODO добавить конструктор с типом вызываемого exception во время ошибки.
 
     public Extractor(ResultSet rs) {
         this.rs = rs;
