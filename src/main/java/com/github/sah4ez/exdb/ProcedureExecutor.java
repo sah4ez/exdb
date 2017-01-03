@@ -8,8 +8,8 @@ import java.util.Arrays;
 /**
  * Created by aleksandr on 03.01.17.
  */
-public class QueryExecutor {
-    private static DataSource ds; // = DataBaseHelper.getDataSource();
+public class ProcedureExecutor {
+    private static DataSource dataSource; // = DataBaseHelper.getDataSource();
     private CallableStatement proc = null;
     private Connection conn = null;
     private String scheme = "";
@@ -18,19 +18,24 @@ public class QueryExecutor {
     volatile private ArrayList<Object> inParameters = new ArrayList<>();
     private Object result = null;
 
-    public QueryExecutor(String scheme, String procedure) {
+    public ProcedureExecutor(DataSource dataSource, String scheme, String procedure) {
         this.scheme = scheme;
         this.procedure = procedure;
+        this.setDataSource(dataSource);
     }
 
-    public QueryExecutor(String scheme, String procedure, Connection conn) {
+    public ProcedureExecutor(String scheme, String procedure, Connection conn) {
         this.scheme = scheme;
         this.procedure = procedure;
         this.conn = conn;
     }
 
-    public QueryExecutor setDataSource(DataSource ds) {
-        QueryExecutor.ds = ds;
+    protected static DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public ProcedureExecutor setDataSource(DataSource ds) {
+        ProcedureExecutor.dataSource = ds;
         return this;
     }
 
@@ -105,13 +110,12 @@ public class QueryExecutor {
             proc.setFloat(number, ((Float) inParameter));
             return;
         }
-//        if(inParameter instanceof Null){
-//            proc.setNull(number, Types.NULL);
-//            return;
-//        }
+        if (inParameter == null) {
+            proc.setNull(number, Types.NULL);
+            return;
+        }
         if (inParameter instanceof Timestamp) {
             proc.setTimestamp(number, ((Timestamp) inParameter));
-            return;
         }
     }
 
@@ -160,10 +164,10 @@ public class QueryExecutor {
     }
 
     private void createConnection() throws SQLException {
-        if (ds == null) {
+        if (dataSource == null) {
             throw new SQLException("DataSource is Null! Please set DataSource");
         }
-        conn = ds.getConnection();
+        conn = dataSource.getConnection();
     }
 
     public void closeConnectionAndStatement() {
@@ -181,31 +185,31 @@ public class QueryExecutor {
         return null;
     }
 
-    public Integer getIntResultInt() {
+    public Integer getIntResult() {
         if (result != null && outParameter == Types.INTEGER)
             return (Integer) result;
         return 0;
     }
 
-    public String getStringResultInt() {
+    public String getStringResult() {
         if (result != null && outParameter == Types.VARCHAR)
             return (String) result;
         return "";
     }
 
-    public Boolean getBooleanResultInt() {
+    public Boolean getBooleanResult() {
         if (result != null && outParameter == Types.BOOLEAN)
             return (Boolean) result;
         return null;
     }
 
-    public Float getFloatResultInt() {
+    public Float getFloatResult() {
         if (result != null && outParameter == Types.FLOAT)
             return (Float) result;
         return null;
     }
 
-    public Timestamp getTimeStampResultInt() {
+    public Timestamp getTimeStampResult() {
         if (result != null && outParameter == Types.TIMESTAMP)
             return (Timestamp) result;
         return null;
@@ -213,5 +217,21 @@ public class QueryExecutor {
 
     public Connection getConn() {
         return conn;
+    }
+
+    public String getScheme() {
+        return scheme;
+    }
+
+    public String getProcedure() {
+        return procedure;
+    }
+
+    public int getOutParameter() {
+        return outParameter;
+    }
+
+    public ArrayList<Object> getInParameters() {
+        return inParameters;
     }
 }
