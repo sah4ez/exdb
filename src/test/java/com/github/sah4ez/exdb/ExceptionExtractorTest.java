@@ -28,46 +28,7 @@ public class ExceptionExtractorTest {
 
         exception.add(new SQLException("Test"));
 
-        exception.clearExceptions();
-    }
-
-    @Test
-    public void removeException() {
-        exception.add(new SQLException("Test"));
-        exception.removeException(0);
-
-        assertEquals(false, exception.isExceptions());
-
-        exception.add(new SQLException("Test1"));
-        exception.removeException(exception.getLastException());
-
-        assertEquals(false, exception.isExceptions());
-    }
-
-    @Test
-    public void clearExceptions() {
-        fillException(10);
-
-        exception.clearExceptions();
-
-        assertEquals(false, exception.isExceptions());
-    }
-
-    @Test
-    public void getExceptionFromIndex() {
-        List<SQLException> exceptions = fillException(10);
-        int targetIndex = 0;
-
-        assertEquals(exceptions.get(targetIndex),
-                exception.getExceptionFromIndex(targetIndex));
-    }
-
-    @Test
-    public void getExceptions() {
-        int count = 10;
-
-        fillException(count);
-        assertEquals(count, exception.getExceptions().size());
+        exception.clear();
     }
 
     @Test
@@ -82,6 +43,8 @@ public class ExceptionExtractorTest {
     public void isExceptions() {
         exception.add(new SQLException("Test"));
         assertEquals(true, exception.isExceptions());
+        exception.clear();
+        assertEquals(false, exception.isExceptions());
     }
 
     private List<SQLException> fillException(int max) {

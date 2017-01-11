@@ -7,13 +7,12 @@ import java.util.List;
 /**
  * Created by User on 1/11/2017.
  */
-public class ExceptionExtractor {
-    private List<SQLException> exceptions;
+public class ExceptionExtractor extends ArrayList<SQLException> {
     private boolean isWriteLog;
 
     public ExceptionExtractor() {
-        exceptions = new ArrayList<>();
         isWriteLog = false;
+
     }
 
     public boolean isWriteLog() {
@@ -24,40 +23,22 @@ public class ExceptionExtractor {
         this.isWriteLog = value;
     }
 
-    public void add(SQLException exception) {
-        exceptions.add(exception);
+    @Override
+    public boolean add(SQLException exception) {
+        super.add(exception);
 
         if (isWriteLog()) {
             exception.printStackTrace();
         }
-    }
-
-    public void removeException(int index) {
-        exceptions.remove(index);
-    }
-
-    public void removeException(SQLException exception) {
-        exceptions.remove(exception);
-    }
-
-    public void clearExceptions() {
-        exceptions.clear();
-    }
-
-    public SQLException getExceptionFromIndex(int index) {
-        return exceptions.get(index);
-    }
-
-    public List<SQLException> getExceptions() {
-        return exceptions;
+        return false;
     }
 
     public SQLException getLastException() {
-        return exceptions.get(exceptions.size()-1);
+        return super.get(super.size()-1);
     }
 
     public boolean isExceptions() {
-        if (exceptions.size() > 0) {
+        if (super.size() > 0) {
             return true;
         } else return false;
     }
