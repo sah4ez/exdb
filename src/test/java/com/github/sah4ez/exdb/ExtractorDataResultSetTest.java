@@ -19,6 +19,7 @@ public class ExtractorDataResultSetTest extends Assert {
     public void setUp() throws Exception {
         ExtractorDataResultSetMockito mockito = new ExtractorDataResultSetMockito();
         extractor = new Extractor(mockito.resultSet());
+        extractor.getExceptions().setWriteLog(true);
     }
     @Test
     public void getInt() throws Exception {
