@@ -21,6 +21,7 @@ public class ExtractorDataResultSetTest extends Assert {
     @Before
     public void setUp() throws Exception {
         extractor = new Extractor(mockito.resultSet());
+        extractor.getExceptions().setWriteLog(true);
     }
 
     @Test

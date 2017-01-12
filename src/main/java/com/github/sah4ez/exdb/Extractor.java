@@ -12,12 +12,14 @@ import java.time.LocalDateTime;
  */
 public class Extractor {
     private ResultSet rs = null;
+    private ExceptionExtractor exceptions;
     private Class<? extends RuntimeException> exception = null;
 
     //TODO добавить конструктор с типом вызываемого exception во время ошибки.
 
     public Extractor(ResultSet rs) {
         this.rs = rs;
+        exceptions = new ExceptionExtractor();
     }
 
     public Extractor(ResultSet rs, Class<? extends RuntimeException> exception){
@@ -30,6 +32,7 @@ public class Extractor {
         try {
             i = rs.getInt(columnName);
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return i;
     }
@@ -41,6 +44,7 @@ public class Extractor {
             if (rs.wasNull())
                 return null;
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return i;
     }
@@ -52,6 +56,7 @@ public class Extractor {
             if (s == null)
                 return "";
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return s;
     }
@@ -63,6 +68,7 @@ public class Extractor {
             if (rs.wasNull())
                 return null;
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return s;
     }
@@ -74,6 +80,7 @@ public class Extractor {
             if (s == null)
                 return Timestamp.valueOf(LocalDateTime.MIN).toLocalDateTime();
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return s.toLocalDateTime();
     }
@@ -85,6 +92,7 @@ public class Extractor {
             if (rs.wasNull())
                 return null;
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return s.toLocalDateTime();
     }
@@ -102,6 +110,7 @@ public class Extractor {
         try {
             f = rs.getFloat(columnName);
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return f;
     }
@@ -113,6 +122,7 @@ public class Extractor {
             if (rs.wasNull())
                 return null;
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return f;
     }
@@ -122,6 +132,7 @@ public class Extractor {
         try {
             b = rs.getBoolean(columnName);
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return b;
     }
@@ -133,6 +144,7 @@ public class Extractor {
             if (rs.wasNull())
                 return null;
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         return b;
     }
@@ -143,6 +155,7 @@ public class Extractor {
                 return;
             }
         } catch (SQLException ignored) {
+            exceptions.add(ignored);
         }
         throw new NotFoundColumnResultSetException(name);
     }
@@ -158,5 +171,9 @@ public class Extractor {
         public String getMessage() {
             return String.format("Column with name '%s' not exist in ResultSet.", message);
         }
+    }
+
+    public ExceptionExtractor getExceptions() {
+        return exceptions;
     }
 }
