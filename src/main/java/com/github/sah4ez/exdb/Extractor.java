@@ -12,11 +12,17 @@ import java.time.LocalDateTime;
  */
 public class Extractor {
     private ResultSet rs = null;
+    private Class<? extends RuntimeException> exception = null;
 
     //TODO добавить конструктор с типом вызываемого exception во время ошибки.
 
     public Extractor(ResultSet rs) {
         this.rs = rs;
+    }
+
+    public Extractor(ResultSet rs, Class<? extends RuntimeException> exception){
+        this.rs = rs;
+        this.exception = exception;
     }
 
     public Integer getInt(String columnName) {
