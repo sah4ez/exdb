@@ -2,10 +2,11 @@ package com.github.sah4ez.exdb;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by User on 1/11/2017.
+ * Class for collect all exception in process extraction data.
+ *
+ * @author Stanislav Martiynov : stas-martynov-98@mail.ru
  */
 public class ExceptionExtractor extends ArrayList<SQLException> {
     private boolean isWriteLog;
