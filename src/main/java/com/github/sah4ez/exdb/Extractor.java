@@ -150,14 +150,19 @@ public class Extractor {
         return b;
     }
 
-    public Array getArrayNull(String columnName){
+    public Object[] getArray(String columnName){
         Array array = null;
+        Object[] result;
         try {
             array = rs.getArray(columnName);
-        } catch (SQLException e) {
-            exceptions.add(e);
+            result = (Object[]) array.getArray();
+        } catch (SQLException | NullPointerException e) {
+            if (e instanceof SQLException){
+                exceptions.add((SQLException) e);
+            }
+            result = new Object[]{};
         }
-        return array;
+        return result;
     }
 
     public void check(String name) throws NotFoundColumnResultSetException {

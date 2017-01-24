@@ -109,13 +109,13 @@ public class ExtractorDataResultSetTest extends Assert {
     @Test
     public void getArrayNull() throws Exception{
         String[] data = new String[] {"1", "2", "3", "4"};
-        String[] dataResult = (String[]) extractor.getArrayNull("name").getArray();
+        String[] dataResult = (String[]) extractor.getArray("name");
         assertEquals(data[0], dataResult[0]);
         assertEquals(data[1], dataResult[1]);
         assertEquals(data[2], dataResult[2]);
         assertEquals(data[3], dataResult[3]);
-        extractor.getArrayNull("exception");
-        assertNull(extractor.getArrayNull("name12"));
+        extractor.getArray("exception");
+        assertEquals(0, extractor.getArray("name12").length);
     }
 
     @Test
