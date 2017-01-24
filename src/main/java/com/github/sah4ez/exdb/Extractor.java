@@ -1,5 +1,6 @@
 package com.github.sah4ez.exdb;
 
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -147,6 +148,16 @@ public class Extractor {
             exceptions.add(ignored);
         }
         return b;
+    }
+
+    public Array getArrayNull(String columnName){
+        Array array = null;
+        try {
+            array = rs.getArray(columnName);
+        } catch (SQLException e) {
+            exceptions.add(e);
+        }
+        return array;
     }
 
     public void check(String name) throws NotFoundColumnResultSetException {

@@ -96,26 +96,18 @@ public class ProcedureExecutor {
     private void setInObjectParameter(int number, Object inParameter) throws SQLException {
         if (inParameter instanceof Integer) {
             proc.setInt(number, ((Integer) inParameter));
-            return;
-        }
-        if (inParameter instanceof String) {
+        }else if (inParameter instanceof String) {
             proc.setString(number, ((String) inParameter));
-            return;
-        }
-        if (inParameter instanceof Boolean) {
+        }else if (inParameter instanceof Boolean) {
             proc.setBoolean(number, ((Boolean) inParameter));
-            return;
-        }
-        if (inParameter instanceof Float) {
+        }else if (inParameter instanceof Float) {
             proc.setFloat(number, ((Float) inParameter));
-            return;
-        }
-        if (inParameter == null) {
+        }else if (inParameter == null) {
             proc.setNull(number, Types.NULL);
-            return;
-        }
-        if (inParameter instanceof Timestamp) {
+        }else if (inParameter instanceof Timestamp) {
             proc.setTimestamp(number, ((Timestamp) inParameter));
+        }else if (inParameter instanceof Array){
+            proc.setArray(number, ((Array) inParameter));
         }
     }
 
@@ -213,6 +205,17 @@ public class ProcedureExecutor {
         if (result != null && outParameter == Types.TIMESTAMP)
             return (Timestamp) result;
         return null;
+    }
+
+    public Array createArray(String typeName, Object[] objects){
+        Array array = null;
+        try {
+            Connection conn = dataSource.getConnection();
+            array = conn.createArrayOf(typeName, objects);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return array;
     }
 
     public Connection getConn() {

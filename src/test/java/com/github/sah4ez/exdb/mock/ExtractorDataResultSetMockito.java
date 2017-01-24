@@ -1,9 +1,7 @@
 package com.github.sah4ez.exdb.mock;
 import org.mockito.Mockito;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.time.LocalDateTime;
 /**
  * Created by pc999 on 09.12.16.
@@ -11,9 +9,12 @@ import java.time.LocalDateTime;
 public class ExtractorDataResultSetMockito {
     public ResultSet resultSet(){
         ResultSet rs = null;
+        Array array =Mockito.mock(Array.class);
+        String[] data = new String[] {"1", "2", "3", "4"};
         LocalDateTime time =LocalDateTime.of(2016, 12, 1, 1,1,1,0);
         try{
             rs = Mockito.mock(ResultSet.class);
+            Mockito.when(array.getArray()).thenReturn(data);
             Mockito.when(rs.getInt("name")).thenReturn(1);
             Mockito.when(rs.getBoolean("name")).thenReturn(true);
             Mockito.when(rs.getString("name")).thenReturn("string");
@@ -31,6 +32,8 @@ public class ExtractorDataResultSetMockito {
             Mockito.when(rs.getBoolean("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.getFloat("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.findColumn("name11")).thenThrow(SQLException.class);
+            Mockito.when(rs.getArray("name")).thenReturn(array);
+            Mockito.when(rs.getArray("exception")).thenThrow(SQLException.class);
             ResultSetMetaData rsmd = metaData();
             Mockito.when(rs.getMetaData()).thenReturn(rsmd);
         } catch (SQLException e) {

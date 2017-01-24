@@ -12,7 +12,7 @@ Maven dependency
         <dependency>
             <groupId>com.github.sah4ez</groupId>
             <artifactId>exdb</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
 ```
 

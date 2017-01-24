@@ -83,10 +83,11 @@ public class ProcedureExecutorTest extends Assert {
     }
 
     @Test
-    public void execute() throws Exception {
+    public void testExecute() throws Exception {
         Timestamp timestamp = Timestamp.from(Calendar.getInstance().toInstant().minusMillis(1));
+        Array array = Mockito.mock(Array.class);
         executor.outType(Types.INTEGER);
-        executor.inputParameters(1, "h", false, 1.0f, null, timestamp);
+        executor.inputParameters(1, "h", false, 1.0f, null, timestamp, array);
         executor.execute();
     }
 
@@ -237,4 +238,22 @@ public class ProcedureExecutorTest extends Assert {
         Mockito.verify(proc).close();
     }
 
+    @Test
+    public void testCreateArray() throws Exception{
+        DataSource dataSource = Mockito.mock(DataSource.class);
+        Connection connection = Mockito.mock(Connection.class);
+        Mockito.when(dataSource.getConnection()).thenReturn(connection);
+        String[] array = new String[] {"1", "2"};
+        ProcedureExecutor executor = new ProcedureExecutor(dataSource, "", "");
+        executor.createArray("varchar", array);
+        Mockito.verify(connection).createArrayOf(Mockito.anyString(), Mockito.any(String[].class));
+    }
+
+    @Test
+    public void testCreateArrayException() throws Exception{
+        DataSource dataSource = Mockito.mock(DataSource.class);
+        Mockito.when(dataSource.getConnection()).thenThrow(SQLException.class);
+        ProcedureExecutor executor = new ProcedureExecutor(dataSource, "", "");
+        executor.createArray("varchar", new Object[]{});
+    }
 }
