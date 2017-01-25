@@ -35,7 +35,7 @@ public class ProcedureExecutor {
     }
 
     public ProcedureExecutor setDataSource(DataSource ds) {
-        ProcedureExecutor.dataSource = ds;
+        dataSource = ds;
         return this;
     }
 
@@ -96,17 +96,17 @@ public class ProcedureExecutor {
     private void setInObjectParameter(int number, Object inParameter) throws SQLException {
         if (inParameter instanceof Integer) {
             proc.setInt(number, ((Integer) inParameter));
-        }else if (inParameter instanceof String) {
+        } else if (inParameter instanceof String) {
             proc.setString(number, ((String) inParameter));
-        }else if (inParameter instanceof Boolean) {
+        } else if (inParameter instanceof Boolean) {
             proc.setBoolean(number, ((Boolean) inParameter));
-        }else if (inParameter instanceof Float) {
+        } else if (inParameter instanceof Float) {
             proc.setFloat(number, ((Float) inParameter));
-        }else if (inParameter == null) {
+        } else if (inParameter == null) {
             proc.setNull(number, Types.NULL);
-        }else if (inParameter instanceof Timestamp) {
+        } else if (inParameter instanceof Timestamp) {
             proc.setTimestamp(number, ((Timestamp) inParameter));
-        }else if (inParameter instanceof Array){
+        } else if (inParameter instanceof Array) {
             proc.setArray(number, ((Array) inParameter));
         }
     }
@@ -159,13 +159,15 @@ public class ProcedureExecutor {
         if (dataSource == null) {
             throw new SQLException("DataSource is Null! Please set DataSource");
         }
-        conn = dataSource.getConnection();
+        if (conn == null) {
+            conn = dataSource.getConnection();
+        }
     }
 
     public void closeConnectionAndStatement() {
         try {
-            proc.close();
-            conn.close();
+            if (proc != null) proc.close();
+            if (conn != null) conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -207,13 +209,15 @@ public class ProcedureExecutor {
         return null;
     }
 
-    public Array createArray(String typeName, Object[] objects){
+    public Array createArray(String typeName, Object[] objects) {
         Array array = null;
         try {
-            Connection conn = dataSource.getConnection();
+            createConnection();
             array = conn.createArrayOf(typeName, objects);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            closeConnectionAndStatement();
         }
         return array;
     }

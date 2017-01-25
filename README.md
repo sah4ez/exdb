@@ -18,6 +18,11 @@ Maven dependency
 
 This is a library for safe extraction from database through the ResultSet.
 
+##### Version #####
+
+- 1.0.3
+Has issue with lost connection.
+
 ##### Why user Extractor? #####
 
 In Extractor realized simple and short API for extraction data from database.
