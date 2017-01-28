@@ -14,7 +14,7 @@ public class ProcedureExecutor {
     private Connection conn = null;
     private String scheme = "";
     private String procedure = "";
-    private int outParameter = Types.NULL;
+    private int outParameter = Types.OTHER;
     volatile private ArrayList<Object> inParameters = new ArrayList<>();
     private Object result = null;
 
