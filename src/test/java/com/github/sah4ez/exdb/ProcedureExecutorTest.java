@@ -99,11 +99,6 @@ public class ProcedureExecutorTest extends Assert {
         executor.execute();
     }
 
-    @Test
-    public void getInParam() throws Exception {
-
-    }
-
     @Test(expected = SQLException.class)
     public void testCreateConnection() throws Throwable {
         executor.setDataSource(null);
@@ -255,5 +250,13 @@ public class ProcedureExecutorTest extends Assert {
         Mockito.when(dataSource.getConnection()).thenThrow(SQLException.class);
         ProcedureExecutor executor = new ProcedureExecutor(dataSource, "", "");
         executor.createArray("varchar", new Object[]{});
+    }
+
+    @Test
+    public void testNullTypes() throws SQLException {
+        executor.outType(Types.NULL);
+        executor.execute();
+        executor.closeConnectionAndStatement();
+        Mockito.verify(proc).execute();
     }
 }

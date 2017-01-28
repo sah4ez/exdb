@@ -69,6 +69,12 @@ public class ExtractorDataResultSetTest extends Assert {
     }
 
     @Test
+    public void getBytes() throws Exception {
+        assertEquals("hello world", new String(extractor.getBytes("name")));
+        assertEquals(0, extractor.getBytes("exception").length);
+    }
+
+    @Test
     public void getValue() throws Exception {
         assertEquals("valuetext", extractor.getValue());
     }

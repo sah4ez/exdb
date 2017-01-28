@@ -16,14 +16,12 @@ public class Extractor {
     private ExceptionExtractor exceptions;
     private Class<? extends RuntimeException> exception = null;
 
-    //TODO добавить конструктор с типом вызываемого exception во время ошибки.
-
     public Extractor(ResultSet rs) {
         this.rs = rs;
         exceptions = new ExceptionExtractor();
     }
 
-    public Extractor(ResultSet rs, Class<? extends RuntimeException> exception){
+    public Extractor(ResultSet rs, Class<? extends RuntimeException> exception) {
         this.rs = rs;
         this.exception = exception;
     }
@@ -150,19 +148,30 @@ public class Extractor {
         return b;
     }
 
-    public Object[] getArray(String columnName){
+    public Object[] getArray(String columnName) {
         Array array = null;
         Object[] result;
         try {
             array = rs.getArray(columnName);
             result = (Object[]) array.getArray();
         } catch (SQLException | NullPointerException e) {
-            if (e instanceof SQLException){
+            if (e instanceof SQLException) {
                 exceptions.add((SQLException) e);
             }
             result = new Object[]{};
         }
         return result;
+    }
+
+    public byte[] getBytes(String columnName) {
+        byte[] array = new byte[]{};
+        try {
+            array = rs.getBytes(columnName);
+        } catch (SQLException e) {
+            exceptions.add(e);
+        } finally {
+            return array;
+        }
     }
 
     public void check(String name) throws NotFoundColumnResultSetException {
@@ -176,6 +185,10 @@ public class Extractor {
         throw new NotFoundColumnResultSetException(name);
     }
 
+    public ExceptionExtractor getExceptions() {
+        return exceptions;
+    }
+
     static class NotFoundColumnResultSetException extends Exception {
         private String message = "";
 
@@ -187,9 +200,5 @@ public class Extractor {
         public String getMessage() {
             return String.format("Column with name '%s' not exist in ResultSet.", message);
         }
-    }
-
-    public ExceptionExtractor getExceptions() {
-        return exceptions;
     }
 }

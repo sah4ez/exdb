@@ -1,18 +1,22 @@
 package com.github.sah4ez.exdb.mock;
+
 import org.mockito.Mockito;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+
 /**
  * Created by pc999 on 09.12.16.
  */
 public class ExtractorDataResultSetMockito {
-    public ResultSet resultSet(){
+    public ResultSet resultSet() {
         ResultSet rs = null;
-        Array array =Mockito.mock(Array.class);
-        String[] data = new String[] {"1", "2", "3", "4"};
-        LocalDateTime time =LocalDateTime.of(2016, 12, 1, 1,1,1,0);
-        try{
+        Array array = Mockito.mock(Array.class);
+        String[] data = new String[]{"1", "2", "3", "4"};
+        LocalDateTime time = LocalDateTime.of(2016, 12, 1, 1, 1, 1, 0);
+        byte[] test = new byte[]{ };
+        try {
+            String hello = "hello world";
             rs = Mockito.mock(ResultSet.class);
             Mockito.when(array.getArray()).thenReturn(data);
             Mockito.when(rs.getInt("name")).thenReturn(1);
@@ -26,6 +30,7 @@ public class ExtractorDataResultSetMockito {
             Mockito.when(rs.findColumn("name")).thenReturn(1);
             Mockito.when(rs.findColumn("valuetext")).thenReturn(1);
             Mockito.when(rs.findColumn("variableid")).thenReturn(1);
+            Mockito.when(rs.getBytes("name")).thenReturn(hello.getBytes());
             Mockito.when(rs.getInt("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.getTimestamp("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.getString("exception")).thenThrow(SQLException.class);
@@ -34,6 +39,7 @@ public class ExtractorDataResultSetMockito {
             Mockito.when(rs.findColumn("name11")).thenThrow(SQLException.class);
             Mockito.when(rs.getArray("name")).thenReturn(array);
             Mockito.when(rs.getArray("exception")).thenThrow(SQLException.class);
+            Mockito.when(rs.getBytes("exception")).thenThrow(SQLException.class);
             ResultSetMetaData rsmd = metaData();
             Mockito.when(rs.getMetaData()).thenReturn(rsmd);
         } catch (SQLException e) {
@@ -41,7 +47,8 @@ public class ExtractorDataResultSetMockito {
         }
         return rs;
     }
-    private ResultSetMetaData metaData(){
+
+    private ResultSetMetaData metaData() {
         ResultSetMetaData rsmd = null;
         try {
             rsmd = Mockito.mock(ResultSetMetaData.class);
