@@ -162,10 +162,9 @@ public class Extractor {
 
     public byte[] getBytes(String columnName) {
         byte[] array = new byte[]{};
-        Blob blob = null;
         try {
-            blob = rs.getBlob(columnName);
-            array = blob.getBytes(0, (int) blob.length());
+            Blob blob = rs.getBlob(columnName);
+            array = blob.getBytes(1, (int) blob.length());
         } catch (SQLException e) {
             exceptions.add(e);
         } finally {

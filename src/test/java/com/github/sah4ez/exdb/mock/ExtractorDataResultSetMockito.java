@@ -2,6 +2,7 @@ package com.github.sah4ez.exdb.mock;
 
 import org.mockito.Mockito;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -31,6 +32,7 @@ public class ExtractorDataResultSetMockito {
             Mockito.when(rs.findColumn("valuetext")).thenReturn(1);
             Mockito.when(rs.findColumn("variableid")).thenReturn(1);
             Mockito.when(rs.getBytes("name")).thenReturn(hello.getBytes());
+            Mockito.when(rs.getBlob("name")).thenReturn(new SerialBlob(hello.getBytes()));
             Mockito.when(rs.getInt("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.getTimestamp("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.getString("exception")).thenThrow(SQLException.class);
@@ -40,6 +42,7 @@ public class ExtractorDataResultSetMockito {
             Mockito.when(rs.getArray("name")).thenReturn(array);
             Mockito.when(rs.getArray("exception")).thenThrow(SQLException.class);
             Mockito.when(rs.getBytes("exception")).thenThrow(SQLException.class);
+            Mockito.when(rs.getBlob("exception")).thenThrow(SQLException.class);
             ResultSetMetaData rsmd = metaData();
             Mockito.when(rs.getMetaData()).thenReturn(rsmd);
         } catch (SQLException e) {
