@@ -1,6 +1,7 @@
 package com.github.sah4ez.exdb;
 
 import javax.sql.DataSource;
+import javax.sql.rowset.serial.SerialBlob;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,20 +97,29 @@ public class ProcedureExecutor {
     private void setInObjectParameter(int number, Object inParameter) throws SQLException {
         if (inParameter instanceof Integer) {
             proc.setInt(number, ((Integer) inParameter));
+            return;
         } else if (inParameter instanceof String) {
             proc.setString(number, ((String) inParameter));
+            return;
         } else if (inParameter instanceof Boolean) {
             proc.setBoolean(number, ((Boolean) inParameter));
+            return;
         } else if (inParameter instanceof Float) {
             proc.setFloat(number, ((Float) inParameter));
+            return;
         } else if (inParameter == null) {
             proc.setNull(number, Types.NULL);
+            return;
         } else if (inParameter instanceof Timestamp) {
             proc.setTimestamp(number, ((Timestamp) inParameter));
+            return;
         } else if (inParameter instanceof Array) {
             proc.setArray(number, ((Array) inParameter));
+            return;
         } else if (inParameter instanceof byte[]){
-            proc.setBytes(number, ((byte[]) inParameter));
+            Blob blob = new SerialBlob(((byte[]) inParameter));
+            proc.setBlob(number, blob);
+            return;
         }
     }
 

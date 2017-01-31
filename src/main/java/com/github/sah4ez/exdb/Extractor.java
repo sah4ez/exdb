@@ -1,9 +1,6 @@
 package com.github.sah4ez.exdb;
 
-import java.sql.Array;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 
 /**
@@ -165,8 +162,10 @@ public class Extractor {
 
     public byte[] getBytes(String columnName) {
         byte[] array = new byte[]{};
+        Blob blob = null;
         try {
-            array = rs.getBytes(columnName);
+            blob = rs.getBlob(columnName);
+            array = blob.getBytes(0, (int) blob.length());
         } catch (SQLException e) {
             exceptions.add(e);
         } finally {
