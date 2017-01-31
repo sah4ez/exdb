@@ -253,4 +253,23 @@ public class ProcedureExecutor {
     public ArrayList<Object> getInParameters() {
         return inParameters;
     }
+
+    public void setAutoCommit(boolean b){
+        try {
+            createConnection();
+            conn.setAutoCommit(b);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void commit(){
+        try {
+            if (conn != null && !conn.isClosed()){
+                conn.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

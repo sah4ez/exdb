@@ -260,4 +260,17 @@ public class ProcedureExecutorTest extends Assert {
         executor.closeConnectionAndStatement();
         Mockito.verify(proc).execute();
     }
+
+    @Test
+    public void setAutoCommit(){
+        executor.setAutoCommit(true);
+    }
+
+    @Test
+    public void testCommit() throws SQLException {
+        Mockito.when(conn.isClosed()).thenReturn(false);
+        executor.execute();
+        executor.commit();
+        Mockito.verify(conn).commit();
+    }
 }
