@@ -108,6 +108,8 @@ public class ProcedureExecutor {
             proc.setTimestamp(number, ((Timestamp) inParameter));
         } else if (inParameter instanceof Array) {
             proc.setArray(number, ((Array) inParameter));
+        } else if (inParameter instanceof byte[]){
+            proc.setBytes(number, ((byte[]) inParameter));
         }
     }
 

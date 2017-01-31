@@ -86,8 +86,9 @@ public class ProcedureExecutorTest extends Assert {
     public void testExecute() throws Exception {
         Timestamp timestamp = Timestamp.from(Calendar.getInstance().toInstant().minusMillis(1));
         Array array = Mockito.mock(Array.class);
+        byte[] bytes = "bb".getBytes();
         executor.outType(Types.INTEGER);
-        executor.inputParameters(1, "h", false, 1.0f, null, timestamp, array);
+        executor.inputParameters(1, "h", false, 1.0f, null, timestamp, array, bytes);
         executor.execute();
     }
 
