@@ -143,6 +143,22 @@ public class ProcedureExecutorTest extends Assert {
     }
 
     @Test
+    public void getBigIntResult() throws Exception {
+        Mockito.when(proc.getObject(1)).thenReturn(new BigDecimal(1));
+        executor.outType(Types.BIGINT);
+        executor.execute();
+        assertEquals(1, executor.getBigIntResult().floatValue(), 0.01f);
+    }
+
+    @Test
+    public void getLongResult() throws Exception {
+        Mockito.when(proc.getObject(1)).thenReturn(1L);
+        executor.outType(Types.BIGINT);
+        executor.execute();
+        assertEquals(1L, executor.getLongResult().longValue());
+    }
+
+    @Test
     public void getStringResultNull() throws Exception {
         assertEquals("", executor.getStringResult());
     }

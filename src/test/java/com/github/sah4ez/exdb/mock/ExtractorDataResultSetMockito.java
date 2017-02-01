@@ -49,6 +49,9 @@ public class ExtractorDataResultSetMockito {
 
             Mockito.when(rs.getBigDecimal("name")).thenReturn(new BigDecimal(1));
             Mockito.when(rs.getBigDecimal("exception")).thenThrow(SQLException.class);
+
+            Mockito.when(rs.getLong("name")).thenReturn(1L);
+            Mockito.when(rs.getLong("exception")).thenThrow(SQLException.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,10 @@
 package com.github.sah4ez.exdb;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -24,7 +27,7 @@ public class Extractor {
         this.exception = exception;
     }
 
-    public BigDecimal getBigInt(String columnName){
+    public BigDecimal getBigDecimal(String columnName) {
         BigDecimal i;
         try {
             i = rs.getBigDecimal(columnName);
@@ -43,6 +46,16 @@ public class Extractor {
             exceptions.add(ignored);
         }
         return i;
+    }
+
+    public Long getLong(String columnName) {
+        Long l = 0L;
+        try {
+            l = rs.getLong(columnName);
+        } catch (SQLException ignored) {
+            exceptions.add(ignored);
+        }
+        return l;
     }
 
     public Integer getIntNull(String columnName) {

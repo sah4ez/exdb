@@ -33,9 +33,16 @@ public class ExtractorDataResultSetTest extends Assert {
 
     @Test
     public void getBigInt() throws Exception {
-        assertEquals(1, extractor.getBigInt("name").intValue());
-        assertEquals(0, extractor.getBigInt("exception").intValue());
-        assertEquals(0, extractor.getBigInt("name12").intValue());
+        assertEquals(1, extractor.getBigDecimal("name").intValue());
+        assertEquals(0, extractor.getBigDecimal("exception").intValue());
+        assertEquals(0, extractor.getBigDecimal("name12").intValue());
+    }
+
+    @Test
+    public void getLong() throws Exception {
+        assertEquals(1L, extractor.getLong("name").longValue());
+        assertEquals(0L, extractor.getLong("exception").longValue());
+        assertEquals(0L, extractor.getLong("name12").longValue());
     }
 
     @Test

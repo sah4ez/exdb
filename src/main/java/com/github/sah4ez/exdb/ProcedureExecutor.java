@@ -123,6 +123,10 @@ public class ProcedureExecutor {
             return;
         } else if (inParameter instanceof BigDecimal){
             proc.setBigDecimal(number, ((BigDecimal) inParameter));
+            return;
+        } else if (inParameter instanceof Long){
+            proc.setLong(number, ((Long) inParameter));
+            return;
         }
     }
 
@@ -198,6 +202,18 @@ public class ProcedureExecutor {
         if (result != null && outParameter == Types.INTEGER)
             return (Integer) result;
         return 0;
+    }
+
+    public BigDecimal getBigIntResult() {
+        if (result != null && outParameter == Types.BIGINT)
+            return (BigDecimal) result;
+        return new BigDecimal(0);
+    }
+
+    public Long getLongResult() {
+        if (result != null && outParameter == Types.BIGINT)
+            return (Long) result;
+        return 0L;
     }
 
     public String getStringResult() {
