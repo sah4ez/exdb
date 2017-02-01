@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Calendar;
 
@@ -88,7 +89,7 @@ public class ProcedureExecutorTest extends Assert {
         Array array = Mockito.mock(Array.class);
         byte[] bytes = "bb".getBytes();
         executor.outType(Types.INTEGER);
-        executor.inputParameters(1, "h", false, 1.0f, null, timestamp, array, bytes);
+        executor.inputParameters(1, "h", false, 1.0f, null, timestamp, array, bytes, new BigDecimal(10));
         executor.execute();
     }
 

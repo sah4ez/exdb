@@ -2,6 +2,7 @@ package com.github.sah4ez.exdb;
 
 import javax.sql.DataSource;
 import java.io.ByteArrayInputStream;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,6 +121,8 @@ public class ProcedureExecutor {
             ByteArrayInputStream bais = new ByteArrayInputStream(((byte[]) inParameter));
             proc.setBinaryStream(number, bais, ((byte[]) inParameter).length);
             return;
+        } else if (inParameter instanceof BigDecimal){
+            proc.setBigDecimal(number, ((BigDecimal) inParameter));
         }
     }
 
