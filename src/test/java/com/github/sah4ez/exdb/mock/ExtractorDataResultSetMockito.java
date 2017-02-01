@@ -3,6 +3,7 @@ package com.github.sah4ez.exdb.mock;
 import org.mockito.Mockito;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -45,6 +46,9 @@ public class ExtractorDataResultSetMockito {
             Mockito.when(rs.getBlob("exception")).thenThrow(SQLException.class);
             ResultSetMetaData rsmd = metaData();
             Mockito.when(rs.getMetaData()).thenReturn(rsmd);
+
+            Mockito.when(rs.getBigDecimal("name")).thenReturn(new BigDecimal(1));
+            Mockito.when(rs.getBigDecimal("exception")).thenThrow(SQLException.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

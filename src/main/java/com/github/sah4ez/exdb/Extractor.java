@@ -1,5 +1,6 @@
 package com.github.sah4ez.exdb;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -21,6 +22,17 @@ public class Extractor {
     public Extractor(ResultSet rs, Class<? extends RuntimeException> exception) {
         this.rs = rs;
         this.exception = exception;
+    }
+
+    public BigDecimal getBigInt(String columnName){
+        BigDecimal i;
+        try {
+            i = rs.getBigDecimal(columnName);
+        } catch (SQLException e) {
+            exceptions.add(e);
+            i = new BigDecimal(0);
+        }
+        return i != null ? i : new BigDecimal(0);
     }
 
     public Integer getInt(String columnName) {
