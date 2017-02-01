@@ -1,7 +1,7 @@
 package com.github.sah4ez.exdb;
 
 import javax.sql.DataSource;
-import javax.sql.rowset.serial.SerialBlob;
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,8 +117,8 @@ public class ProcedureExecutor {
             proc.setArray(number, ((Array) inParameter));
             return;
         } else if (inParameter instanceof byte[]){
-            Blob blob = new SerialBlob(((byte[]) inParameter));
-            proc.setBlob(number, blob);
+            ByteArrayInputStream bais = new ByteArrayInputStream(((byte[]) inParameter));
+            proc.setBinaryStream(number, bais, ((byte[]) inParameter).length);
             return;
         }
     }
@@ -228,7 +228,6 @@ public class ProcedureExecutor {
             array = conn.createArrayOf(typeName, objects);
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
             closeConnectionAndStatement();
         }
         return array;
