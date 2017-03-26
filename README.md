@@ -20,6 +20,9 @@ This is a library for safe extraction from database through the ResultSet.
 
 ##### Version #####
 
+- 1.0.13
+Implement AutoClosable for Prepared statement.
+
 - 1.0.3
 Has issue with lost connection.
 

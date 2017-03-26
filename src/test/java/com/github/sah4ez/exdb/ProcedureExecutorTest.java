@@ -35,13 +35,6 @@ public class ProcedureExecutorTest extends Assert {
     public void testQueryParameter() {
         assertEquals("scheme1", executor.getScheme());
         assertEquals("procedure1", executor.getProcedure());
-        assertNotNull(ProcedureExecutor.getDataSource());
-    }
-
-    @Test
-    public void setDataSource() throws Exception {
-        executor.setDataSource(dataSource);
-        assertNotNull(ProcedureExecutor.getDataSource());
     }
 
     @Test
@@ -74,7 +67,6 @@ public class ProcedureExecutorTest extends Assert {
 
     @Test(expected = NullPointerException.class)
     public void executeThrowWithException() throws Throwable {
-
         ProcedureExecutor executor =
                 new ProcedureExecutor(dataSourceException, "scheme1", "procedure1");
         executor.outType(Types.INTEGER);
@@ -91,28 +83,6 @@ public class ProcedureExecutorTest extends Assert {
         executor.outType(Types.INTEGER);
         executor.inputParameters(1, "h", false, 1.0f, null, timestamp, array, bytes, new BigDecimal(10));
         executor.execute();
-    }
-
-    @Test
-    public void executeWithException() throws Exception {
-        executor.setDataSource(dataSourceException);
-        executor.outType(Types.INTEGER);
-        executor.inputParameters(1);
-        executor.execute();
-    }
-
-    @Test(expected = SQLException.class)
-    public void testCreateConnection() throws Throwable {
-        executor.setDataSource(null);
-        executor.executeThrow(SQLException.class);
-    }
-
-    @Test
-    public void closeConnectionAndStatement() throws Exception {
-        executor.setDataSource(dataSource);
-        executor.execute();
-        executor.closeConnectionAndStatement();
-        Mockito.verify(conn).close();
     }
 
     @Test
